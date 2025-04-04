@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Book Categories - TheMind Bookstore</title>
+    <link rel="stylesheet" href="style.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css" />
+    <style>
+        body {
+            background: linear-gradient(to bottom right, #000000, #004080);
+            color: #fff;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+
+        .header {
+            padding: 20px;
+            text-align: center;
+            background-color: rgba(0, 0, 0, 0.7);
+            border-bottom: 2px solid #004080;
+        }
+
+        .header h1 {
+            font-size: 2.5rem;
+            margin: 0;
+        }
+
+        .categories-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 30px;
+            padding: 40px 20px;
+            max-width: 1200px;
+            margin: auto;
+        }
+
+        .category-card {
+            background-color: rgba(255, 255, 255, 0.05);
+            border: 1px solid #004080;
+            border-radius: 10px;
+            padding: 30px 20px;
+            text-align: center;
+            transition: 0.3s ease;
+            cursor: pointer;
+        }
+
+        .category-card:hover {
+            transform: translateY(-5px);
+            background-color: rgba(0, 64, 128, 0.4);
+        }
+
+        .category-card i {
+            font-size: 2.5rem;
+            color: #00bfff;
+            margin-bottom: 10px;
+        }
+
+        .category-card h3 {
+            margin-top: 10px;
+            font-size: 1.3rem;
+            color: #fff;
+        }
+
+        .book-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 20px;
+            padding: 40px 20px;
+            max-width: 1200px;
+            margin: auto;
+        }
+
+        .book-card {
+            background-color: rgba(255, 255, 255, 0.08);
+            padding: 15px;
+            border-radius: 10px;
+            text-align: center;
+            border: 1px solid #004080;
+            color: #fff;
+        }
+
+        .book-card img {
+            width: 100%;
+            max-height: 250px;
+            object-fit: cover;
+            border-radius: 5px;
+        }
+
+        .book-card .price {
+            font-weight: bold;
+            margin-top: 10px;
+        }
+
+        .book-card span {
+            text-decoration: line-through;
+            color: #ccc;
+            margin-left: 5px;
+        }
+
+        .btn {
+            background-color: #00bfff;
+            color: #fff;
+            padding: 8px 16px;
+            margin-top: 10px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .btn:hover {
+            background-color: #007acc;
+        }
+
+        .rating {
+            margin-top: 8px;
+            color: gold;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="header">
+        <h1>Explore by Category</h1>
+        <p>Choose a category to discover books that match your interests</p>
+    </div>
+
+    <!-- Replacing your previous container with dynamic buttons -->
+    <section class="categories">
+        <div class="categories-container">
+            <div class="category-card category-btn" data-category="Fiction">
+                <i class="fas fa-book-open"></i>
+                <h3>Fiction</h3>
+            </div>
+            <div class="category-card category-btn" data-category="Tech">
+                <i class="fas fa-microchip"></i>
+                <h3>Tech</h3>
+            </div>
+            <div class="category-card category-btn" data-category="Romance">
+                <i class="fas fa-heart"></i>
+                <h3>Romance</h3>
+            </div>
+            <div class="category-card category-btn" data-category="Sci-Fi">
+                <i class="fas fa-user-astronaut"></i>
+                <h3>Sci-Fi</h3>
+            </div>
+            <div class="category-card category-btn" data-category="Biography">
+                <i class="fas fa-landmark"></i>
+                <h3>Biography</h3>
+            </div>
+            <div class="category-card category-btn" data-category="Drama">
+                <i class="fas fa-theater-masks"></i>
+                <h3>Drama</h3>
+            </div>
+            <div class="category-card category-btn" data-category="African Literature">
+                <i class="fas fa-globe-africa"></i>
+                <h3>African Literature</h3>
+            </div>
+            <div class="category-card category-btn" data-category="Self Help">
+                <i class="fas fa-brain"></i>
+                <h3>Self Help</h3>
+            </div>
+        </div>
+    </section>
+
+    <!-- Dynamic books will load here -->
+    <section id="category-books" class="book-grid">
+        <!-- Book cards will be inserted here -->
+    </section>
+
+    <script src="../logic/categories.js"></script>
+
+</body>
+
+</html>

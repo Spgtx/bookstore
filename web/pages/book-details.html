@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Book Details</title>
+
+    <!-- External CSS -->
+    <link rel="stylesheet" href="style.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css">
+
+    <style>
+        body {
+            background: linear-gradient(to bottom, #000000, #1e3c72);
+            color: #fff;
+            font-family: 'Segoe UI', sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+
+        .book-details-container {
+            max-width: 1000px;
+            margin: 50px auto;
+            padding: 20px;
+            background-color: rgba(0, 0, 0, 0.4);
+            border-radius: 10px;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 30px;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .book-image {
+            flex: 1 1 300px;
+            text-align: center;
+        }
+
+        .book-image img {
+            width: 100%;
+            max-width: 300px;
+            border-radius: 10px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+        }
+
+        .book-info {
+            flex: 1 1 400px;
+        }
+
+        .book-info h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+        }
+
+        .book-info h3 {
+            color: #a2d2ff;
+            margin-bottom: 20px;
+        }
+
+        .book-info .price {
+            font-size: 1.5rem;
+            color: #00f7ff;
+            margin-bottom: 15px;
+        }
+
+        .book-info .price span {
+            text-decoration: line-through;
+            color: #999;
+            font-size: 1rem;
+            margin-left: 10px;
+        }
+
+        .book-info p {
+            font-size: 1rem;
+            line-height: 1.6;
+        }
+
+        .btn {
+            margin-top: 20px;
+            padding: 12px 24px;
+            background-color: #007bff;
+            color: #fff;
+            text-decoration: none;
+            border-radius: 6px;
+            display: inline-block;
+            transition: background 0.3s ease;
+        }
+
+        .btn:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+
+<body>
+
+    <section class="book-details-container">
+        <div class="book-image">
+            <img id="book-image" src="" alt="Book Cover" />
+        </div>
+        <div class="book-info">
+            <h1 id="book-title">Loading...</h1>
+            <h3 id="book-author">By Author</h3>
+            <div class="price" id="book-price">Ksh.0 <span>Ksh.0</span></div>
+            <p id="book-description">Please wait while we load the book description.</p>
+            <a href="cart.html" class="btn">Add to Cart</a>
+        </div>
+    </section>
+
+    <script src="../logic/book-details.js"></script>
+</body>
+
+</html>

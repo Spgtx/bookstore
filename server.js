@@ -20,7 +20,7 @@ mongoose.connect("mongodb://127.0.0.1:27017/bookstore", {
     useNewUrlParser: true,
     useUnifiedTopology: true
 }).then(() => console.log("✅ MongoDB Connected"))
-  .catch(err => console.error("❌ MongoDB Connection Error:", err));
+    .catch(err => console.error("❌ MongoDB Connection Error:", err));
 
 const JWT_SECRET = process.env.JWT_SECRET || "your_secret_key";
 
@@ -82,4 +82,16 @@ app.get("/api/books", async (req, res) => {
 
 app.listen(PORT, () => {
     console.log(`Server running on http://localhost:${PORT}`);
+});
+
+
+// Get books by category
+app.get("/api/books/category/:category", async (req, res) => {
+    try {
+        const category = req.params.category;
+        const books = await Book.find({ category: category });
+        res.json(books);
+    } catch (err) {
+        res.status(500).json({ error: err.message });
+    }
 });
