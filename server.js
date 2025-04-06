@@ -95,3 +95,48 @@ app.get("/api/books/category/:category", async (req, res) => {
         res.status(500).json({ error: err.message });
     }
 });
+
+//Author route
+const Author = require('./models/Author');
+
+app.get("/api/authors", async (req, res) => {
+    try {
+        const authors = await Author.find();
+        res.json(authors);
+    } catch (err) {
+        res.status(500).json({ error: err.message });
+    }
+});
+
+app.get("/api/authors/:id", async (req, res) => {
+    try {
+        const author = await Author.findById(req.params.id);
+        if (!author) return res.status(404).json({ message: "Author not found" });
+        res.json(author);
+    } catch (err) {
+        res.status(500).json({ error: err.message });
+    }
+});
+
+
+// Fetch contact/social data
+app.get("/api/contact", (req, res) => {
+    res.json({
+        location: {
+            lat: -1.2921,
+            lng: 36.8219
+        },
+        socials: {
+            facebook: "https://facebook.com/themindbookstore",
+            twitter: "https://twitter.com/themindstore",
+            instagram: "https://instagram.com/themindbookstore"
+        }
+    });
+});
+
+// Handle form submission
+app.post("/api/contact", express.json(), (req, res) => {
+    const { name, email, message } = req.body;
+    console.log("Contact form submission:", { name, email, message });
+    res.json({ success: true, message: "Message received. We'll get back to you!" });
+});

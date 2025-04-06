@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Author Spotlight | TheMind Bookstore</title>
+    <link rel="stylesheet" href="../style.css" />
+    <link rel="stylesheet" href="../style/author.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css" />
+</head>
+
+<body>
+
+    <!-- Header -->
+    <header class="header">
+        <div class="header-1">
+            <a href="index.html" class="logo">TheMind</a>
+            <form class="search-form">
+                <input type="text" id="author-search" placeholder="Search authors by name..."
+                    class="author-search-input" />
+                <label class="fas fa-search"></label>
+            </form>
+            <div class="icons">
+                <a href="cart.html" class="fas fa-shopping-cart"></a>
+                <a href="login.html" class="fas fa-user"></a>
+            </div>
+        </div>
+        <div class="header-2">
+            <nav class="navbar">
+                <a href="index.html">Home</a>
+                <a href="Featured_books.html">Bookstore</a>
+                <a href="categories.html">Categories</a>
+                <a href="authors.html">Authors</a>
+                <a href="about.html">About</a>
+                <a href="contact.html">Contact</a>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Author Spotlight Section (Dynamic) -->
+    <section class="author-spotlight">
+        <h2 class="section-title">Author Spotlight</h2>
+        <div class="author-container" id="author-container">
+            <!-- Authors will be dynamically inserted here -->
+        </div>
+    </section>
+
+    <script src="../logic/author-script.js"></script>
+</body>
+
+</html>
