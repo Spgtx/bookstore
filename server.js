@@ -6,14 +6,115 @@ const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const { body, validationResult } = require("express-validator");
 require("dotenv").config();
-
+const Cart = require("../models/Cart");
+const express = require("express");
+const { Order } = require("./models/order");
 const User = require("./models/User");
 
+const adminRouter = express.Router();
 const app = express();
 
 // Middleware
 app.use(cors());
 app.use(express.json());
+app.use("/api/admin", adminRouter);
+
+adminRouter.use((req, res, next) => {
+    const token = req.headers.authorization?.split(" ")[1];
+    if (!token) return res.status(401).json({ error: "No token" });
+
+    try {
+        const decoded = jwt.verify(token, "your_admin_secret");
+        if (!decoded.isAdmin) throw new Error();
+        next();
+    } catch {
+        res.status(403).json({ error: "Unauthorized" });
+    }
+});
+
+// Books
+
+// Get all books
+app.get("/api/books", async (req, res) => {
+    try {
+        const books = await Book.find();
+        res.json(books);
+    } catch (err) {
+        res.status(500).json({ error: err.message });
+    }
+});
+
+// Get a single book
+app.get("/api/books/:id", async (req, res) => {
+    try {
+        const book = await Book.findById(req.params.id);
+        res.json(book);
+    } catch (err) {
+        res.status(500).json({ error: err.message });
+    }
+});
+
+// Create a new book
+app.post("/api/books", async (req, res) => {
+    try {
+        const newBook = new Book(req.body);
+        await newBook.save();
+        res.status(201).json(newBook);
+    } catch (err) {
+        res.status(400).json({ error: err.message });
+    }
+});
+
+// Update a book
+app.put("/api/books/:id", async (req, res) => {
+    try {
+        const updatedBook = await Book.findByIdAndUpdate(req.params.id, req.body, { new: true });
+        res.json(updatedBook);
+    } catch (err) {
+        res.status(400).json({ error: err.message });
+    }
+});
+
+// Delete a book
+app.delete("/api/books/:id", async (req, res) => {
+    try {
+        await Book.findByIdAndDelete(req.params.id);
+        res.json({ message: "Book deleted successfully" });
+    } catch (err) {
+        res.status(500).json({ error: err.message });
+    }
+});
+
+// Users
+adminRouter.get("/users", async (req, res) => {
+    const users = await User.find();
+    res.json(users);
+});
+
+// Orders
+adminRouter.get("/orders", async (req, res) => {
+    const orders = await Order.find().populate("user");
+    res.json(orders);
+});
+
+adminRouter.patch("/orders/:id", async (req, res) => {
+    const order = await Order.findByIdAndUpdate(req.params.id, {
+        status: req.body.status
+    });
+    res.json(order);
+});
+
+
+
+const { router: adminAuthRoutes, authenticateAdmin } = require("./routes/adminAuth");
+app.use("/api/admin", adminAuthRoutes);
+
+// Example protected admin route
+app.get("/api/admin/dashboard", authenticateAdmin, (req, res) => {
+    res.json({ message: "Welcome to Admin Dashboard" });
+});
+
+
 
 // MongoDB Connection
 mongoose.connect("mongodb://127.0.0.1:27017/bookstore", {
@@ -139,4 +240,26 @@ app.post("/api/contact", express.json(), (req, res) => {
     const { name, email, message } = req.body;
     console.log("Contact form submission:", { name, email, message });
     res.json({ success: true, message: "Message received. We'll get back to you!" });
+});
+
+
+// Get all cart items for a user
+app.get("/api/cart", async (req, res) => {
+    try {
+        const userId = req.session.userId; // or req.user.id from auth middleware
+        const cart = await Cart.find({ userId }).populate("book");
+        res.json(cart);
+    } catch (err) {
+        res.status(500).json({ error: err.message });
+    }
+});
+
+// Delete cart item
+app.delete("/api/cart/:id", async (req, res) => {
+    try {
+        await Cart.findByIdAndDelete(req.params.id);
+        res.json({ message: "Item removed from cart" });
+    } catch (err) {
+        res.status(500).json({ error: err.message });
+    }
 });

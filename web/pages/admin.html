@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Admin Dashboard</title>
+  <link rel="stylesheet" href="../style/admin.css" />
+</head>
+
+<body>
+  <div class="admin-container">
+    <header>
+      <h1>📚 Admin Dashboard</h1>
+      <button id="toggleTheme">🌗 Toggle Theme</button>
+      <button id="logout">Logout</button>
+    </header>
+
+    <nav>
+      <button class="tab active" data-tab="books">Books</button>
+      <button class="tab" data-tab="users">Users</button>
+      <button class="tab" data-tab="orders">Orders</button>
+    </nav>
+
+    <main>
+      <section id="books" class="tab-content active">
+        <h2>Manage Books</h2>
+        <form id="addBookForm">
+          <input type="text" name="title" placeholder="Title" required />
+          <input type="text" name="author" placeholder="Author" required />
+          <input type="text" name="image" placeholder="Image URL" />
+          <input type="number" name="price" placeholder="Price" required />
+          <input type="number" name="originalPrice" placeholder="Original Price" />
+          <input type="number" name="rating" placeholder="Rating (0-5)" />
+          <button type="submit">Add Book</button>
+        </form>
+        <div id="bookList"></div>
+      </section>
+
+      <section id="users" class="tab-content">
+        <h2>Registered Users</h2>
+        <div id="userList"></div>
+      </section>
+
+      <section id="orders" class="tab-content">
+        <h2>Orders</h2>
+        <div id="orderList"></div>
+      </section>
+    </main>
+  </div>
+
+  <script src="../logic/admin.js"></script>
+</body>
+
+</html>
