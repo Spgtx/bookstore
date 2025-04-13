@@ -1,4 +1,4 @@
-/*const token = localStorage.getItem("adminToken");
+const token = localStorage.getItem("adminToken");
 if (!token) window.location.href = "/login.html";
 
 const tabs = document.querySelectorAll(".tab");
@@ -12,7 +12,7 @@ tabs.forEach(tab => {
         tab.classList.add("active");
         document.getElementById(tab.dataset.tab).classList.add("active");
     });
-});*/
+});
 
 document.getElementById("toggleTheme").addEventListener("click", () => {
     document.body.classList.toggle("dark");
