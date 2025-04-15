@@ -3,23 +3,26 @@ const mongoose = require("mongoose");
 const cors = require("cors");
 require("dotenv").config();
 const app = express();
+const Admin = require('./models/Admin');
+const { router: adminAuthRoutes } = require("./middleware/adminAuth");
+const adminRoutes = require("./routes/adminRoutes");
+
 
 // Models
 const Book = require("./models/Book");
 const User = require("./models/User");
-const { Order } = require("./models/order");
+const { Order } = require("./models/Order");
 const Author = require('./models/Author');
+
 
 // Middleware
 app.use(cors());
 app.use(express.json());
 
 // Routes
-const { router: adminAuthRoutes } = require("./middleware/adminAuth");
-const adminRoutes = require("./routes/adminRoutes");
-
 app.use("/api/admin", adminAuthRoutes);     // Handles /api/admin/register and /login
 app.use("/api/admin", adminRoutes);         // Handles /api/admin/books, /users, /orders
+
 
 // Book Routes
 app.get("/api/books", async (req, res) => {
@@ -76,20 +79,20 @@ const { body, validationResult } = require("express-validator");
 const JWT_SECRET = process.env.JWT_SECRET || "your_secret_key";
 
 app.post("/api/register", [
-    body("email").isEmail(),
+    body("username").isLength({ min: 3 }).withMessage("Username must be at least 3 characters long"),
     body("password").isLength({ min: 6 })
 ], async (req, res) => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) return res.status(400).json({ errors: errors.array() });
 
-    const { name, email, password } = req.body;
+    const { username, password } = req.body;
 
     try {
-        let user = await User.findOne({ email });
+        let user = await User.findOne({ username });
         if (user) return res.status(400).json({ message: "User already exists" });
 
         const hashedPassword = await bcrypt.hash(password, 10);
-        user = new User({ name, email, password: hashedPassword });
+        user = new User({ username, password: hashedPassword });
         await user.save();
 
         res.status(201).json({ message: "User registered successfully" });
@@ -99,10 +102,10 @@ app.post("/api/register", [
 });
 
 app.post("/api/login", async (req, res) => {
-    const { email, password } = req.body;
+    const { username, password } = req.body;
 
     try {
-        const user = await User.findOne({ email });
+        const user = await User.findOne({ username });
         if (!user) return res.status(400).json({ message: "Invalid credentials" });
 
         const isMatch = await bcrypt.compare(password, user.password);
@@ -141,4 +144,15 @@ mongoose.connect("mongodb://127.0.0.1:27017/bookstore", {
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
     console.log(`🚀 Server running on http://localhost:${PORT}`);
+});
+
+
+// Temporary admin creation route
+
+app.post('/create-admin', async (req, res) => {
+    const hashedPassword = await bcrypt.hash("admin1234", 10);
+    const newAdmin = new Admin({ username: "SecureAdmin123", password: hashedPassword });
+
+    await newAdmin.save();
+    res.send("Admin created");
 });

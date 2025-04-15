@@ -9,23 +9,23 @@ const ADMIN_SECRET = "your_admin_secret"; // Ideally use process.env.ADMIN_SECRE
 
 // ✅ Admin Registration (for creating admin users)
 router.post("/register", [
-    body("email").isEmail(),
+    body("username").isLength({ min: 3 }).withMessage("Username must be at least 3 characters long"),
     body("password").isLength({ min: 6 }),
     body("name").notEmpty()
 ], async (req, res) => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) return res.status(400).json({ errors: errors.array() });
 
-    const { name, email, password } = req.body;
+    const { name, username, password } = req.body;
 
     try {
-        let existingUser = await User.findOne({ email });
+        let existingUser = await User.findOne({ username });
         if (existingUser) return res.status(400).json({ message: "Admin already exists" });
 
         const hashedPassword = await bcrypt.hash(password, 10);
         const newAdmin = new User({
             name,
-            email,
+            username,
             password: hashedPassword,
             isAdmin: true // 👈 mark as admin
         });
@@ -39,10 +39,10 @@ router.post("/register", [
 
 // ✅ Admin Login
 router.post("/login", async (req, res) => {
-    const { email, password } = req.body;
+    const { username, password } = req.body;
 
     try {
-        const admin = await User.findOne({ email });
+        const admin = await User.findOne({ username });
         if (!admin || !admin.isAdmin) {
             return res.status(400).json({ message: "Invalid admin credentials" });
         }
