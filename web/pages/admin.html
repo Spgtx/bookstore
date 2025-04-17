@@ -17,36 +17,62 @@
     </header>
 
     <nav>
-      <button class="tab active" data-tab="books">Books</button>
-      <button class="tab" data-tab="users">Users</button>
-      <button class="tab" data-tab="orders">Orders</button>
+      <button class="tab active" data-tab="overview">📊 Overview</button>
+      <button class="tab" data-tab="books">📚 Books</button>
+      <button class="tab" data-tab="users">👥 Users</button>
+      <button class="tab" data-tab="orders">🧾 Orders</button>
     </nav>
 
     <main>
-      <section id="books" class="tab-content active">
-        <h2>Manage Books</h2>
+      <!-- Overview Dashboard -->
+      <section id="overview" class="tab-content active">
+        <h2>📈 Stats Overview</h2>
+        <div class="dashboard-stats">
+          <div>Total Books: <span id="totalBooks">0</span></div>
+          <div>Total Users: <span id="totalUsers">0</span></div>
+          <div>Pending Orders: <span id="pendingOrders">0</span></div>
+        </div>
+      </section>
+
+      <!-- Books Management -->
+      <section id="books" class="tab-content">
+        <h2>📚 Manage Books</h2>
         <form id="addBookForm">
           <input type="text" name="title" placeholder="Title" required />
           <input type="text" name="author" placeholder="Author" required />
-          <input type="text" name="image" placeholder="Image URL" />
+          <input type="file" name="imageFile" id="imageFile" />
           <input type="number" name="price" placeholder="Price" required />
           <input type="number" name="originalPrice" placeholder="Original Price" />
-          <input type="number" name="rating" placeholder="Rating (0-5)" />
-          <button type="submit">Add Book</button>
+          <input type="number" name="rating" placeholder="Rating (0-5)" step="0.1" />
+          <button type="submit">➕ Add Book</button>
         </form>
+
+        <input type="text" id="bookSearch" placeholder="Search books..." />
         <div id="bookList"></div>
       </section>
 
+      <!-- Users Management -->
       <section id="users" class="tab-content">
-        <h2>Registered Users</h2>
+        <h2>👥 Registered Users</h2>
+        <input type="text" id="userSearch" placeholder="Search users..." />
         <div id="userList"></div>
       </section>
 
+      <!-- Orders Management -->
       <section id="orders" class="tab-content">
-        <h2>Orders</h2>
+        <h2>🧾 Orders</h2>
+        <input type="text" id="orderSearch" placeholder="Search orders by user/email..." />
         <div id="orderList"></div>
       </section>
     </main>
+  </div>
+
+  <!-- Modal for Previewing / Editing Book -->
+  <div id="modal" class="modal hidden">
+    <div class="modal-content">
+      <span class="close-btn">&times;</span>
+      <div id="modalBody"></div>
+    </div>
   </div>
 
   <script src="../logic/admin.js"></script>
