@@ -173,6 +173,49 @@ document.getElementById("searchBooks").addEventListener("input", async (e) => {
     filtered.forEach(renderBook);
 });
 
+
+function openBookModal(book) {
+    document.getElementById("editBookId").value = book._id;
+    document.getElementById("editTitle").value = book.title;
+    document.getElementById("editAuthor").value = book.author;
+    document.getElementById("editPrice").value = book.price;
+    document.getElementById("bookModal").style.display = "block";
+}
+
+function closeModal(id) {
+    document.getElementById(id).style.display = "none";
+}
+
+document.getElementById("editBookForm").addEventListener("submit", async (e) => {
+    e.preventDefault();
+    const id = document.getElementById("editBookId").value;
+    const title = document.getElementById("editTitle").value;
+    const author = document.getElementById("editAuthor").value;
+    const price = parseFloat(document.getElementById("editPrice").value);
+    await fetch(`/api/admin/books/${id}`, {
+        method: "PATCH",
+        headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`
+        },
+        body: JSON.stringify({ title, author, price })
+    });
+    closeModal("bookModal");
+    loadBooks();
+});
+
+
+function renderBook(book) {
+    const div = document.createElement("div");
+    div.innerHTML = `
+      <p><strong>${book.title}</strong> by ${book.author} - $${book.price}</p>
+      <button onclick="openBookModal(${JSON.stringify(book).replace(/"/g, '&quot;')})">Edit</button>
+      <button onclick="deleteBook('${book._id}')">Delete</button>
+    `;
+    bookList.appendChild(div);
+}
+
+
 // ====== INIT ======
 loadBooks();
 loadUsers();

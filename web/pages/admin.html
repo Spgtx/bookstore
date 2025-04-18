@@ -75,6 +75,24 @@
     </div>
   </div>
 
+  <!-- Book Edit Modal -->
+  <div id="bookModal" class="modal">
+    <div class="modal-content">
+      <span class="close" onclick="closeModal('bookModal')">&times;</span>
+      <h3>Edit Book</h3>
+      <form id="editBookForm">
+        <input type="hidden" id="editBookId">
+        <input type="text" id="editTitle" placeholder="Title" required>
+        <input type="text" id="editAuthor" placeholder="Author" required>
+        <input type="number" id="editPrice" placeholder="Price" required>
+        <button type="submit">Save Changes</button>
+        <button id="exportBooks">Export Books to CSV</button>
+
+      </form>
+    </div>
+  </div>
+
+
   <script src="../logic/admin.js"></script>
 </body>
 
